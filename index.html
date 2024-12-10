@@ -256,19 +256,31 @@ h1 {
     });
 </script>
   
-    <style>
+<style>
+    #menu-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('https://cdn.culture.ru/images/70215d4e-5958-5423-a1d7-38689695efc2');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0; /* Убирает возможные отступы */
+        padding: 0; /* Убирает возможные отступы */
+        box-sizing: border-box; /* Для корректного расчета размеров */
+    }
+
+    /* Добавим правило для небольших экранов */
+    @media (max-width: 768px) {
         #menu-container {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
+            justify-content: center; /* Убедимся, что элементы остаются по центру */
             align-items: center;
-            background-image: url('https://cdn.culture.ru/images/70215d4e-5958-5423-a1d7-38689695efc2');
-            background-size: cover; /* Покрывает весь экран */
-            background-position: center; /* Центрирует изображение */
-            background-repeat: no-repeat; /* Не повторяет изображение */
         }
-    </style>
+    }
+</style>
+
     
     <div id="background-container">
         <div id="dialogue-box"></div>
