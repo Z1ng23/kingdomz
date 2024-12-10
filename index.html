@@ -10,26 +10,19 @@
     </audio>
         
     <style>
+
+        /* Общие стили */
         @font-face {
-      font-family: 'Vezitsa';
-      src: url('./fonts/vezitsacyrillic.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    h1 {
-      font-family: 'Vezitsa', sans-serif;
-      font-size: 48px;
-      letter-spacing: 2px;
-    }
-
-    body {
-      font-family: 'Vezitsa', sans-serif;
-      font-size: 48px;
-      letter-spacing: 2px;
-    }
+            font-family: 'Vezitsa';
+            src: url('./fonts/vezitsacyrillic.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
         
         body {
+            font-family: 'Vezitsa', sans-serif;
+            font-size: 48px;
+            letter-spacing: 2px;
             margin: 0;
             overflow: hidden;
             display: flex;
@@ -40,13 +33,19 @@
             background-color: #f0f0f0;
             user-select: none;
         }
-
+        
+        h1 {
+            font-family: 'Vezitsa', sans-serif;
+            font-size: 48px;
+            letter-spacing: 2px;
+        }
+        
         #menu-container, #background-container {
             width: 100vw;
             height: 100vh;
             position: absolute;
         }
-
+        
         #menu-container {
             display: flex;
             justify-content: center;
@@ -55,7 +54,7 @@
             background-position: center;
             background-repeat: no-repeat;
         }
-
+        
         #background-container {
             display: none;
             position: relative;
@@ -65,12 +64,12 @@
             background-attachment: fixed;
             z-index: 1;
         }
-
+        
         #dialogue-box {
             position: absolute;
             bottom: 10%;
             left: 10%;
-            width: 77%;
+            width: 80%;
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 20px;
@@ -79,72 +78,79 @@
             display: none;
             z-index: 10;
         }
-
+        
         .character {
             position: absolute;
-            width: 1000px;
-            height: 1000px;
+            width: 80vw;
+            height: auto;
             pointer-events: none;
         }
-
+        
         .character img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
-
+        
         .button-container {
-      margin-top: auto; /* Поднимает блок с кнопкой вверх к нижней части экрана */
-      text-align: center;
-      padding: 10px;
-      background-color: #f8f8f8;
+            margin-top: auto;
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f8f8;
         }
-
+        
         .btn.firsttt {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-     background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    }
-
-    .btn.seconddd {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-     background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    }
-
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn.seconddd {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
         .btn:hover {
-    background-color: #0056b3;
+            background-color: #0056b3;
         }
         
         .start-button {
-    position: absolute;
-    bottom: 10%;
-    padding: 10px 20px;
-    background-color: #ffcc00;
-    border: none;
-    border-radius: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Убираем прокрутку с страницы */
-body, html {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            height: 100%;
+            position: absolute;
+            bottom: 10%;
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
+        
+        .start-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        #start-screen-text {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            text-align: center;
+        }
+        
         #character-image-container {
             display: none;
             position: fixed;
@@ -159,7 +165,7 @@ body, html {
             border-radius: 10px;
             z-index: 9999;
         }
-
+        
         #overlay-text {
             position: absolute;
             top: 0;
@@ -176,8 +182,7 @@ body, html {
             border-radius: 10px;
             box-sizing: border-box;
         }
-
-        /* Чтобы картинка не выходила за пределы свитка */
+        
         #character-image-container img {
             max-width: 100%;
             height: auto;
@@ -185,23 +190,40 @@ body, html {
             margin: 0 auto;
             border-radius: 10px;
         }
-
-.start-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-}
-
-
-        #start-screen-text {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 24px;
-            text-align: center;
+        
+        /* Адаптивные стили для телефонов */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+        
+            h1 {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+        
+            #dialogue-box {
+                font-size: 18px;
+                padding: 15px;
+            }
+        
+            .start-button {
+                width: 90%;
+                font-size: 18px;
+                padding: 10px;
+            }
+        
+            .character {
+                width: 90%;
+                height: auto;
+            }
+        
+            #start-screen-text {
+                font-size: 18px;
+            }
         }
-    </style>
+        </style>
+        
 </head>
 <body>
 
