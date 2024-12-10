@@ -50,6 +50,10 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative; /* Меняем с absolute на relative */
+    background-image: url('https://cdn.culture.ru/images/70215d4e-5958-5423-a1d7-38689695efc2');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -267,18 +271,6 @@ h1 {
         width: 100%;
         height: 100%;
         overflow: hidden; /* Исключаем скроллинг */
-    }
-
-    #menu-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: 100vh;
-        background-image: url('https://cdn.culture.ru/images/70215d4e-5958-5423-a1d7-38689695efc2');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
     }
 
     /* Адаптация для небольших экранов */
