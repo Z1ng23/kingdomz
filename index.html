@@ -10,214 +10,125 @@
     </audio>
         
     <style>
+        /* Общие стили */
+        @font-face {
+            font-family: 'Vezitsa';
+            src: url('./fonts/vezitsacyrillic.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-/* Общие стили */
-@font-face {
-    font-family: 'Vezitsa';
-    src: url('./fonts/vezitsacyrillic.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Vezitsa', sans-serif;
-    font-size: 2.5rem; /* Используем относительные единицы */
-    letter-spacing: 0.1rem;
-    margin: 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: #f0f0f0;
-    user-select: none;
-}
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-h1 {
-    font-family: 'Vezitsa', sans-serif;
-    font-size: 2.5rem;
-    letter-spacing: 0.1rem;
-}
+        body {
+            font-family: 'Vezitsa', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 0.1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            user-select: none;
+        }
 
-#menu-container, #background-container {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-}
+        h1 {
+            font-family: 'Vezitsa', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            letter-spacing: 0.1rem;
+        }
 
-#menu-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    position: relative; /* Меняем с absolute на relative */
-    background-image: url('https://cdn.culture.ru/images/70215d4e-5958-5423-a1d7-38689695efc2');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+        #menu-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://cdn.culture.ru/images/70215d4e-5958-5423-a1d7-38689695efc2');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-#background-container {
-    display: none;
-    position: relative;
-    background-size: 80%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    z-index: 1;
-}
+        .start-button {
+            margin-top: 20px;
+            padding: 1rem 2rem;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-#dialogue-box {
-    position: absolute;
-    bottom: 10%;
-    left: 10%;
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 1.25rem;
-    border-radius: 10px;
-    font-size: 1.5rem;
-    display: none;
-    z-index: 10;
-}
+        .start-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
 
-.character {
-    position: absolute;
-    width: 80vw;
-    height: auto;
-    pointer-events: none;
-}
+        #start-screen-text {
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
 
-.character img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+        /* Кнопка "Показать свиток" */
+        #show-scroll-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10000;
+            border-radius: 5px;
+        }
 
-.button-container {
-    margin-top: auto;
-    text-align: center;
-    padding: 0.625rem;
-    background-color: #f8f8f8;
-}
+        /* Адаптивные стили для мобильных устройств */
+        @media (max-width: 768px) {
+            body {
+                font-size: 1.5rem;
+            }
 
-.btn.firsttt, .btn.seconddd {
-    padding: 0.625rem 1.25rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+            h1 {
+                font-size: 1.8rem;
+            }
 
-.btn:hover {
-    background-color: #0056b3;
-}
+            #start-screen-text {
+                font-size: 1.5rem;
+                padding: 0.5rem;
+            }
 
-.start-button {
-    position: absolute;
-    bottom: 10%;
-    padding: 1.25rem 2.5rem;
-    background-color: #ffcc00;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.25rem;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+            .start-button {
+                width: 90%;
+                font-size: 1.2rem;
+                padding: 0.8rem;
+            }
 
-.start-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-}
-
-#start-screen-text {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-#character-image-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 80%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    text-align: center;
-    overflow: hidden;
-    margin: 0 10%;
-    border-radius: 10px;
-    z-index: 9999;
-}
-
-#overlay-text {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 1.125rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 2rem;
-    height: 100%;
-    overflow-y: scroll;
-    text-align: left;
-    width: 80%;
-    border-radius: 10px;
-    box-sizing: border-box;
-}
-
-#character-image-container img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border-radius: 10px;
-}
-
-/* Адаптивные стили для телефонов */
-@media (max-width: 768px) {
-    body {
-        font-size: 2rem; /* Немного уменьшаем шрифт */
-    }
-
-    h1 {
-        font-size: 2rem;
-        letter-spacing: 0.05rem;
-    }
-
-    #dialogue-box {
-        font-size: 1.25rem;
-        padding: 1rem;
-    }
-
-    .start-button {
-        width: 90%;
-        font-size: 1.125rem;
-        padding: 1rem;
-    }
-
-    .character {
-        width: 90%;
-        height: auto;
-    }
-
-    #start-screen-text {
-        font-size: 1.25rem;
-    }
-}
-
-        </style>
+            #show-scroll-button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
         
 </head>
 <body>
