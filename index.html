@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект</title>
+    <audio autoplay loop>
+        <source src="https://dropmefiles.com/uzui9" type="audio/mpeg">
+        Ваш браузер не поддерживает элемент audio.
+    </audio>
+        
+    <style>
+        @font-face {
+      font-family: 'Vezitsa';
+      src: url('./fonts/vezitsacyrillic.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    h1 {
+      font-family: 'Vezitsa', sans-serif;
+      font-size: 48px;
+      letter-spacing: 2px;
+    }
+
+    body {
+      font-family: 'Vezitsa', sans-serif;
+      font-size: 48px;
+      letter-spacing: 2px;
+    }
+        
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #f0f0f0;
+            user-select: none;
+        }
+
+        #menu-container, #background-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+        }
+
+        #menu-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #background-container {
+            display: none;
+            position: relative;
+            background-size: 80%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            z-index: 1;
+        }
+
+        #dialogue-box {
+            position: absolute;
+            bottom: 10%;
+            left: 10%;
+            width: 77%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 32px;
+            display: none;
+            z-index: 10;
+        }
+
+        .character {
+            position: absolute;
+            width: 1000px;
+            height: 1000px;
+            pointer-events: none;
+        }
+
+        .character img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .button-container {
+      margin-top: auto; /* Поднимает блок с кнопкой вверх к нижней части экрана */
+      text-align: center;
+      padding: 10px;
+      background-color: #f8f8f8;
+        }
+
+        .btn.firsttt {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+     background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+
+    .btn.seconddd {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+     background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+
+        .btn:hover {
+    background-color: #0056b3;
+        }
+        
+        .start-button {
+    position: absolute;
+    bottom: 10%;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Убираем прокрутку с страницы */
+body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        #character-image-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            overflow: hidden;
+            margin: 0 10%;
+            border-radius: 10px;
+            z-index: 9999;
+        }
+
+        #overlay-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            height: 100%;
+            overflow-y: scroll;
+            text-align: left;
+            width: 80%;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Чтобы картинка не выходила за пределы свитка */
+        #character-image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+.start-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+        #start-screen-text {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Контейнер с главным меню -->
+<div id="menu-container">
+    <div id="start-screen-text">
+        <h1>Принцесса похищена! Ты, Иван Царевич, готов отправиться в опасное приключение?</h1>
+    </div>
+    <button class="start-button" onclick="startAdventure()">Начать</button>
+</div>
+
+<!-- Кнопка для отображения свитка, расположена справа снизу -->
+<button id="show-scroll-button" style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px; z-index: 10000;">
+    Показать свиток
+</button>
+
+<div id="character-image-container" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); text-align: center; overflow: hidden; z-index: 9999;" onclick="document.getElementById('character-image-container').style.display='none';">
+    <img src="https://i.postimg.cc/w38JjM7f/photo-2024-12-05-18-41-26.png" alt="Character Image" style="position: absolute; top: 20px; right: 400px; left: 100px; width: 1200px; height: 900px; object-fit: contain; display: block; margin: 0 auto;">
+</div>
+
+<script>
+    document.getElementById('show-scroll-button').addEventListener('click', function() {
+        var container = document.getElementById('character-image-container');
+        // Переключаем видимость свитка
+        if (container.style.display === 'none' || container.style.display === '') {
+            container.style.display = 'block';
+        } else {
+            container.style.display = 'none';
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+    // Функция для показа свитка
+    document.getElementById('show-scroll-button').addEventListener('click', function() {
+        document.getElementById('character-image-container').style.display = 'block';
+        // Скрываем кнопку после того, как свиток появился
+        this.style.display = 'none';
+    });
+</script>
+  
+    <style>
+        #menu-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://cdn.culture.ru/images/70215d4e-5958-5423-a1d7-38689695efc2');
+            background-size: cover; /* Покрывает весь экран */
+            background-position: center; /* Центрирует изображение */
+            background-repeat: no-repeat; /* Не повторяет изображение */
+        }
+    </style>
+    
+    <div id="background-container">
+        <div id="dialogue-box"></div>
+    </div>
+
+    <script>
+        let backgroundContainer = document.getElementById('background-container');
+        let dialogueBox = document.getElementById('dialogue-box');
+
+// Начало приключения
+function startAdventure() {
+    document.getElementById('menu-container').style.display = 'none';
+    document.getElementById('character-image-container').style.display = 'block';
+    console.log('Начало приключения...');
+    backgroundContainer.style.display = 'block';
+    backgroundContainer.style.backgroundImage = `url('https://i.pinimg.com/736x/d1/10/e4/d110e4a96f46edcb464518bbb9d0b46f.jpg')`; // Фон для 1 сцены
+
+    // Вызов диалога с передачей функции для перехода к следующей сцене
+    showDialogue(
+        "Иван: Принцесса похищена! Нам нужно собраться и отправиться в путь. Друзья, поможете мне в этом приключении?",
+        loadForestPath // Переход к следующему уровню
+    );
+}
+
+
+        // Загружаем уровень "Лесная тропа"
+function loadForestPath() {
+        console.log('Первое испытание — Лесная тропа');
+        backgroundContainer.style.display = 'block';
+        backgroundContainer.style.backgroundImage = `url('https://cdn.culture.ru/images/5c6fd1d1-14f8-5adb-ab43-c023d6210fad')`; // Лес
+
+        showDialogue(
+            "Лес полон препятствий! Нужно быть осторожными, чтобы добраться до избушки Бабы Яги.",
+            loadHutScene
+        );
+    }
+
+    function loadHutScene() {
+    console.log('Достижение избушки Бабы Яги...');
+    backgroundContainer.style.backgroundImage = `url('https://i.postimg.cc/FHn22MT9/DALL-E-2024-11-21-00-51.jpg')`;
+
+    // Создаём зону клика
+    const clickableZone = document.createElement('div');
+    clickableZone.style.position = 'absolute';
+    clickableZone.style.width = '450px'; // Ширина зоны
+    clickableZone.style.height = '450px'; // Высота зоны
+    clickableZone.style.top = '20%'; // Положение сверху
+    clickableZone.style.left = '45%'; // Положение слева
+    clickableZone.style.cursor = 'pointer';
+    backgroundContainer.appendChild(clickableZone);
+
+    // Диалог
+    showDialogue(
+        "Мы дошли до избушки Бабы Яги. Она не будет проста, но мы должны получить её помощь.",
+        () => {
+            console.log('Теперь нажмите на выделенную область, чтобы продолжить.');
+            clickableZone.addEventListener('click', () => {
+                console.log('Вы нажали на зону! Переход в интерьер...');
+                clickableZone.remove(); // Удаляем зону после клика
+                loadHutInterior(); // Переход к следующей сцене
+            });
+        }
+    );
+}
+
+function loadHutInterior() {
+    console.log('Интерьер избушки Бабы Яги...');
+    backgroundContainer.style.backgroundImage = `url('https://i.postimg.cc/44YMcGwf/DALL-E-2024-11-21-00-27-08-The-whimsical-and-magical-interior-of-Baba-Yaga-s-hut-in-a-cartoon-style.jpg')`;
+
+    // Создание персонажа
+    createCharacter();
+
+    showDialogue(
+        "Баба Яга: Добро пожаловать в мою избушку, Иван Царевич. Здесь начинается самое интересное!",
+        startDialogue // Начинаем диалог с Бабой Ягой
+    );
+}
+
+function createCharacter() {
+    const character = document.createElement('div');
+    character.classList.add('character');
+    character.style.position = 'absolute';
+    setCharacterPosition(character, '35%', '35%');
+    const characterImage = document.createElement('img');
+    characterImage.src = 'https://i.postimg.cc/fTbDtngN/maxresdefault-3.png';
+    characterImage.style.width = '1100px'; // Размер изображения персонажа
+    characterImage.style.height = 'auto';
+    character.appendChild(characterImage);
+    backgroundContainer.appendChild(character);
+}
+
+function setCharacterPosition(character, x, y) {
+    character.style.left = x;
+    character.style.top = y;
+}
+
+
+function startDialogue() {
+    const dialogueText = [
+        "СЕЙЧАС ТЕБЕ ПРЕДСТОИТ ПРОЙТИ ИСПЫТАНИЕ",
+    ];
+
+    let index = 0;
+
+    function showNextDialogue() {
+        if (index < dialogueText.length) {
+            dialogueBox.textContent = dialogueText[index];
+            dialogueBox.style.display = 'block';
+            index++;
+        } else {
+            dialogueBox.style.display = 'none';
+            quest(); // Переходим к загадке после завершения диалога
+        }
+    }
+    let buttonCreated = false; // Флаг для отслеживания, создана ли кнопка
+
+    function quest() {
+        const dialoguequest1 = [
+            "Как думаешь почему баба яга грустит?",
+        ];
+
+        // Отображаем текст загадки
+        dialogueBox.textContent = dialoguequest1[0];
+        dialogueBox.style.display = 'block';
+
+        // Проверяем, была ли уже создана кнопка
+        if (!buttonCreated) {
+            // Создаем кнопки
+            const buttonCenter = document.createElement('button');
+            buttonCenter.innerHTML = '2. забыла законсервировать мухоморы';
+            buttonCenter.classList.add('btn', 'firsttt');
+            backgroundContainer.appendChild(buttonCenter);
+
+            const buttonLeft = document.createElement('button');
+            buttonLeft.innerHTML = '1. считает себя не достаточно красивой';
+            buttonLeft.classList.add('btn', 'firsttt');
+            backgroundContainer.appendChild(buttonLeft);
+
+            const buttonRight = document.createElement('button');
+            buttonRight.innerHTML = '3. нечего есть';
+            buttonRight.classList.add('btn', 'firsttt');
+            backgroundContainer.appendChild(buttonRight);
+
+            // Стили для кнопок
+            buttonCenter.style.position = 'absolute';
+            buttonCenter.style.left = '50%';
+            buttonCenter.style.transform = 'translateX(-50%)';
+            buttonCenter.style.top = '55%';
+
+            buttonLeft.style.position = 'absolute';
+            buttonLeft.style.left = '21%';
+            buttonLeft.style.top = '55%';
+
+            buttonRight.style.position = 'absolute';
+            buttonRight.style.left = '60%';
+            buttonRight.style.top = '55%';
+
+            // Обработка выбора
+            function handleButtonClick(event) {
+    if (event.target.innerHTML === '1. считает себя не достаточно красивой') {
+        console.log("Правильный выбор!");
+
+        dialogueBox.textContent = ''; // Убираем текст
+        dialogueBox.style.display = 'none'; // Скрываем диалоговый блок
+
+        buttonCenter.remove();
+        buttonLeft.remove();
+        buttonRight.remove();
+
+        // Переходим к новому диалогу
+        setTimeout(dialogueWithChoices, 0); // Небольшая задержка для плавного перехода
+    } else {
+        console.log("Неверный выбор, попробуй снова!");
+    }
+}
+
+
+            // Добавляем обработчики кликов для каждой кнопки
+            buttonCenter.addEventListener('click', handleButtonClick);
+            buttonLeft.addEventListener('click', handleButtonClick);
+            buttonRight.addEventListener('click', handleButtonClick);
+
+            buttonCreated = true;
+        }
+    }
+
+    // Новый диалог с выбором
+    function dialogueWithChoices() {
+    console.log("1234"); // Лог проверки вызова функции
+    const dialoguequest2 = [
+        "Что можно сделать чтобы поднять ей настроение?",
+    ];
+
+    // Проверяем, что `dialogueBox` существует
+    console.log(dialogueBox); // Выводим элемент в консоль
+
+    // Устанавливаем текст нового диалога
+    dialogueBox.textContent = dialoguequest2[0];
+    dialogueBox.style.display = 'block'; // Убедитесь, что элемент видим
+    dialogueBox.style.visibility = 'visible'; // Альтернативно делаем элемент видимым
+
+        // Отображаем второй вопрос
+        dialogueBox.textContent = dialoguequest2[0];
+        dialogueBox.style.display = 'block';
+
+        // Создаем новые кнопки
+        const buttonOption1 = document.createElement('button');
+        buttonOption1.innerHTML = '1. Сказать комплемент, но только единоразово';
+        buttonOption1.classList.add('btn', 'seconddd');
+        backgroundContainer.appendChild(buttonOption1);
+
+        const buttonOption2 = document.createElement('button');
+        buttonOption2.innerHTML = '2. Предложить продукт, который поможет ей почувствовать себя красивой и уверенной женщиной';
+        buttonOption2.classList.add('btn', 'seconddd');
+        backgroundContainer.appendChild(buttonOption2);
+
+        const buttonOption3 = document.createElement('button');
+        buttonOption3.innerHTML = '3. сказать. что она красивее кикиморы. правильный ответ';
+        buttonOption3.classList.add('btn', 'seconddd');
+        backgroundContainer.appendChild(buttonOption3);
+
+        // Стили для новых кнопок
+        buttonOption1.style.position = 'absolute';
+        buttonOption1.style.left = '21%';
+        buttonOption1.style.top = '55%';
+
+        buttonOption2.style.position = 'absolute';
+        buttonOption2.style.left = '50%';
+        buttonOption2.style.transform = 'translateX(-50%)';
+        buttonOption2.style.top = '35%';
+
+        buttonOption3.style.position = 'absolute';
+        buttonOption3.style.left = '60%';
+        buttonOption3.style.top = '55%';
+
+        // Обработка выбора
+        function handleNewChoice(event) {
+            if (event.target.innerHTML === '2. Предложить продукт, который поможет ей почувствовать себя красивой и уверенной женщиной') {
+                console.log("Правильный ответ!");
+                
+                // Удаляем кнопки
+                buttonOption1.remove();
+                buttonOption2.remove();
+                buttonOption3.remove();
+
+                // Завершаем испытание или переходим к следующему этапу
+                showCriticalThinking();
+            } else {
+                console.log("Неверный ответ, попробуй снова!");
+            }
+        }
+
+        // Добавляем обработчики кликов для новых кнопок
+        buttonOption1.addEventListener('click', handleNewChoice);
+        buttonOption2.addEventListener('click', handleNewChoice);
+        buttonOption3.addEventListener('click', handleNewChoice);
+    }
+
+    // Добавляем обработчик клика для продолжения диалога
+    backgroundContainer.addEventListener('click', showNextDialogue);
+}
+
+function showDialogue(text, nextStep) {
+    // Проверяем, не отображается ли карта
+    if (isMapVisible) {
+        return; // Если карта уже видна, не показываем диалоги
+    }
+
+    // Скрываем диалоговое окно, если оно было открыто
+    dialogueBox.style.display = 'none'; 
+
+    // Обновляем содержимое и показываем снова
+    dialogueBox.textContent = text;
+    dialogueBox.style.display = 'block';  // Показываем диалог
+
+    backgroundContainer.addEventListener('click', () => {
+        dialogueBox.style.display = 'none';  // Скрываем после клика
+        nextStep();
+    }, { once: true });
+}
+
+let showCritical = false;
+
+function showCriticalThinking() {
+    console.log("showCriticalThinking function called");
+
+    if (!showCritical) { // Проверяем, не показана ли карта
+        showCritical = true; // Устанавливаем флаг, что карта уже показана
+
+        // Убираем все элементы, связанные с предыдущими сценами
+        removePreviousElements();
+
+        // Удаляем диалоговое окно
+        if (dialogueBox) {
+            dialogueBox.remove(); // Удаляем диалог
+        }
+
+        // Проверяем, что `dialogueBox` существует
+        console.log(dialogueBox); // Выводим элемент в консоль
+
+        // Устанавливаем фоновое изображение
+        backgroundContainer.style.backgroundImage = "url('https://i.imghippo.com/files/KOfK4927hKg.jpg')";
+        backgroundContainer.style.backgroundSize = 'cover'; // Сделать так, чтобы фон занимал весь контейнер
+        
+        const centerArea = document.createElement('div');
+        centerArea.classList.add('clickable-area', 'center');
+        backgroundContainer.appendChild(centerArea);
+
+        // Добавляем стили для областей
+        centerArea.style.position = 'absolute';
+        centerArea.style.left = '35%';
+        centerArea.style.top = '50%';
+        centerArea.style.width = '30%';
+        centerArea.style.height = '20%';
+        centerArea.style.backgroundColor = 'rgba(0, 0, 0, 0)'; // Полупрозрачный фон
+        centerArea.style.cursor = 'not-allowed'; // Неактивная зона
+
+        const messageBox = document.createElement('div');
+messageBox.id = 'messageBox'; // Устанавливаем уникальный id для поиска
+messageBox.textContent = "Поздравляем!!! Ты верно прошёл первое испытание!!! Вот тебе подсказка от бабы Яги: Ступай по дорожке, да перейди через мост, там и будет ждать тебя ответ";
+messageBox.style.position = 'absolute';
+messageBox.style.left = '50%';
+messageBox.style.top = '60%';
+messageBox.style.transform = 'translateX(-50%)'; // Центрируем по горизонтали
+messageBox.style.color = 'white'; // Белый цвет текста, чтобы он был виден на чёрном фоне
+messageBox.style.fontSize = '30px';
+messageBox.style.fontWeight = 'bold';
+messageBox.style.textAlign = 'center';
+messageBox.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+messageBox.style.padding = '10px'; // Добавляем отступы, чтобы текст не прилипал к краям
+messageBox.style.borderRadius = '10px'; // Скругляем углы, если нужно
+
+backgroundContainer.appendChild(messageBox);
+
+
+
+        // Обработчик клика для левой области
+        centerArea.addEventListener('click', () => {
+            // Переходим к следующему этапу
+            setTimeout(() => {
+                // После задержки, вызываем showNegotiation
+                showMap();
+            }, 300); // Задержка 1 секунда для отображения фразы "Ты угадал"
+        });
+
+        // Центр и правая область неактивны
+        centerArea.addEventListener('click', (e) => {
+            e.stopPropagation(); // Останавливаем всплытие события, чтобы клик не переходил дальше
+        });
+    }
+}
+
+let isMapVisible = false; // Флаг для отслеживания, показывается ли карта
+
+function showMap() {
+    if (!isMapVisible) {
+        isMapVisible = true; 
+
+        // Убираем все элементы, кроме карты
+        removePreviousElements();
+
+        // Прячем или удаляем messageBox, если он существует
+        let messageBox = document.querySelector('#messageBox');
+        if (messageBox) {
+            messageBox.remove(); // Удаляем элемент, если он существует
+        }
+
+        // Обновление фона для карты
+        backgroundContainer.style.backgroundImage = "url('https://i.postimg.cc/kXBhVpDW/flying-islands-chronicles-4.png')";
+        backgroundContainer.style.backgroundSize = 'contain'; 
+        backgroundContainer.style.backgroundPosition = 'center'; 
+        backgroundContainer.style.display = 'block'; 
+    }
+}
+
+
+
+
+
+
+function removePreviousElements() {
+    // Убираем изображение персонажей
+    const character = document.querySelector('.character');
+    if (character) {
+        character.remove();
+    }
+
+    // Скрываем диалоговое окно
+    if (dialogueBox) {
+        dialogueBox.style.display = 'none';
+    }
+
+    // Скрываем все кнопки
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.style.display = 'none'; // Прячем все кнопки
+    });
+
+    // Скрываем все области для кликов
+    const clickableZones = document.querySelectorAll('.clickable-zone');
+    clickableZones.forEach(zone => {
+        zone.style.display = 'none'; // Прячем зоны
+    });
+
+    // Убираем все дополнительные элементы, связанные с предыдущими сценами
+    const previousElements = document.querySelectorAll('.previous-element');
+    previousElements.forEach(element => {
+        element.style.display = 'none'; // Прячем все элементы с классом 'previous-element'
+    });
+
+    // Убираем зоны на карте (если они присутствуют)
+    const leftArea = document.querySelector('.left-area');
+    if (leftArea) {
+        leftArea.style.display = 'none'; // Прячем левую зону
+    }
+
+    const centerArea = document.querySelector('.center-area');
+    if (centerArea) {
+        centerArea.style.display = 'none'; // Прячем центральную зону
+    }
+
+    const rightArea = document.querySelector('.right-area');
+    if (rightArea) {
+        rightArea.style.display = 'none'; // Прячем правую зону
+    }
+}
+    </script>
+
+</body>
+</html>
